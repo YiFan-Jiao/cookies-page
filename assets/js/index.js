@@ -91,19 +91,19 @@ function getCookie() {
 function setCookie(browser,system,borWidth,borHeight) {
     let borrwserKey = encodeURIComponent('Browser')
     let browserValue = encodeURIComponent(browser)
-    document.cookie = `${borrwserKey}=${browserValue}; path=/; max-age=5`;
+    document.cookie = `${borrwserKey}=${browserValue}; path=/; max-age=15`;
 
     let systemKey = encodeURIComponent('System')
     let systemValue = encodeURIComponent(system)
-    document.cookie = `${systemKey}=${systemValue}; path=/; max-age=5`;
+    document.cookie = `${systemKey}=${systemValue}; path=/; max-age=15`;
 
     let borWidthKey = encodeURIComponent('BorWidth')
     let borWidthValue = encodeURIComponent(borWidth)
-    document.cookie = `${borWidthKey}=${borWidthValue}; path=/; max-age=5`;
+    document.cookie = `${borWidthKey}=${borWidthValue}; path=/; max-age=15`;
 
     let borHeightKey = encodeURIComponent('BorHeight')
     let borHeightValue = encodeURIComponent(borHeight)
-    document.cookie = `${borHeightKey}=${borHeightValue}; path=/; max-age=5`;
+    document.cookie = `${borHeightKey}=${borHeightValue}; path=/; max-age=15`;
 }
 
 function getBrowser() {
