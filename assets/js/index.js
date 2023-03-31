@@ -1,26 +1,13 @@
 'use strict'
 
-/* const xx = 'sss'
-
-function getCookie(name) {
-    let matches = document.cookie.match(new RegExp(
-      "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-    ));
-  
-    return matches ? decodeURIComponent(matches[1]) : undefined;
-}
-
-console.log(getCookie(xx)) */
-
 const setingValues = document.querySelectorAll('.seting-box');
-
 const accepts = document.querySelector('.accepts');
-
+const accepts2 = document.querySelector('.accepts2');
+const settings = document.querySelector('.settings');
 const cokkiesBox = document.querySelector('.cokkies-box');
 const settingsBox = document.querySelector('.settings-box');
 const bigFilter = document.querySelector('.big-filter');
-
-
+let result = {browser:'', system:'', borWidth:'', borHeight:''};
 
 const checkCookie = setInterval(function(){
     if(document.cookie) {
@@ -29,116 +16,124 @@ const checkCookie = setInterval(function(){
         bigFilter.style.display = 'none';
     } else {
         cokkiesBox.style.display = 'block';
-        settingsBox.style.display = 'none';
+        settingsBox.style.display = 'block';
         bigFilter.style.display = 'block';
     }
 },1000)
 
-setingValues.forEach((element,index) => {
-    element.addEventListener('click', () => {
-
-        if(element.checked && index===0) {
-            console.log('获取浏览器')
-        }
-
-        if(element.checked && index===1) {
-            console.log('获取系统')
-        } 
-
-        if(element.checked && index===2) {
-            console.log('获取宽度')
-        } 
-
-        if(element.checked && index===3) {
-            console.log('获取高度')
-        } 
-     });
+bigFilter.addEventListener('click', () => {
+    cokkiesBox.style.display = 'none';
+    settingsBox.style.display = 'none';
+    bigFilter.style.display = 'none';
+    settingsBox.style.zIndex = '1004'
 });
 
-/* if(setingValue[0].checked) {
-    console.log('获取浏览器')
-} */
+settings.addEventListener('click', () => {
+    settingsBox.style.zIndex = '1006'
+});
 
-let browser = '';
-let system = '';
-let borWidth = '';
-let borHeight = '';
+accepts.addEventListener('click', () => {
+    getCookie();
+    setCookie(result.browser,result.system,result.borWidth,result.borHeight);
+    console.log(document.cookie)
+});
 
+accepts2.addEventListener('click', () => {
+    getCookie();
+    setCookie(result.browser,result.system,result.borWidth,result.borHeight);
+    settingsBox.style.zIndex = '1004'
+    console.log(document.cookie);
+    setingValues[0].checked = 'checked';
+    setingValues[1].checked = 'checked';
+    setingValues[2].checked = 'checked';
+    setingValues[3].checked = 'checked';
+});
 
-if(setingValues[0].checked) {
-    browser = 'Chrome';
-    //console.log()
-    /* if(navigator.appVersion.indexOf("Chrome")) {
-        console.log('是Chrome浏览器')
-    } */
-    /* console.log(navigator.userAgent) */
-    /* if(navigator.appVersion.indexOf("Chrome")) {
-        console.log('是Chrome浏览器')
-    }
-
-    if(navigator.appVersion.indexOf("Chrome")) {
-        console.log('是Chrome浏览器')
-    } */
-} else {
-    browser = '不同意获取浏览器信息';
-}
-
-if(setingValues[1].checked) {
-    system = 'WIN';
-} else {
-    system = '不同意获取系统信息';
-}
-
-
-
-if(setingValues[2].checked) {
-    borWidth = document.body.clientWidth;
-} else {
-    borWidth = '不同意获取浏览器宽度';
-}
-
-if(setingValues[3].checked) {
-    borHeight = document.body.clientHeight;
-} else {
-    borWidth = '不同意获取浏览器宽度';
-}
+setingValues.forEach((element) => {
+    element.addEventListener('click', () => {
+        getCookie()
+    });
+});
 
 window.onresize = function() {
-    
     if(setingValues[2].checked) {
-        borWidth = document.body.clientWidth;
+        result.borWidth = document.body.clientWidth;
     } else {
-        borWidth = '不同意获取浏览器宽度';
+        result.borWidth = 'secrecy';
     }
 
     if(setingValues[3].checked) {
-        borHeight = document.body.clientHeight;
+        result.borHeight = document.body.clientHeight;
     } else {
-        borWidth = '不同意获取浏览器宽度';
+        result.borWidth = 'secrecy';
     }
 }
 
-accepts.addEventListener('click', () => {
-    setCookie(browser,system,borWidth,borHeight);
-    console.log(document.cookie)
- });
+function getCookie() {
+    getBrowser()
+    getOS()
+    
+    if(setingValues[2].checked) {
+        result.borWidth = document.body.clientWidth;
+    } else {
+        result.borWidth = 'secrecy';
+    }
+    
+    if(setingValues[3].checked) {
+        result.borHeight = document.body.clientHeight;
+    } else {
+        result.borHeight = 'secrecy';
+    }
+
+    return result
+}
 
 function setCookie(browser,system,borWidth,borHeight) {
     let borrwserKey = encodeURIComponent('Browser')
     let browserValue = encodeURIComponent(browser)
-    document.cookie = `${borrwserKey}=${browserValue}; path=/; max-age=15`;
+    document.cookie = `${borrwserKey}=${browserValue}; path=/; max-age=5`;
 
     let systemKey = encodeURIComponent('System')
     let systemValue = encodeURIComponent(system)
-    document.cookie = `${systemKey}=${systemValue}; path=/; max-age=15`;
+    document.cookie = `${systemKey}=${systemValue}; path=/; max-age=5`;
 
     let borWidthKey = encodeURIComponent('BorWidth')
     let borWidthValue = encodeURIComponent(borWidth)
-    document.cookie = `${borWidthKey}=${borWidthValue}; path=/; max-age=15`;
+    document.cookie = `${borWidthKey}=${borWidthValue}; path=/; max-age=5`;
 
     let borHeightKey = encodeURIComponent('BorHeight')
     let borHeightValue = encodeURIComponent(borHeight)
-    document.cookie = `${borHeightKey}=${borHeightValue}; path=/; max-age=15`;
+    document.cookie = `${borHeightKey}=${borHeightValue}; path=/; max-age=5`;
 }
 
-//console.log(document.cookie)
+function getBrowser() {
+    if(setingValues[0].checked) {
+        if(navigator.userAgent.indexOf("Edg") !== -1) {
+            result.browser = 'Edg';
+        } else if(navigator.userAgent.indexOf("Chrome") !== -1) {
+            result.browser = 'Chrome';
+        } else {
+            result.browser = 'Firefox';
+        }
+    } else {
+        result.browser = 'secrecy';
+    }
+
+    return result.browser
+}
+
+function getOS() {
+    if(setingValues[1].checked) {
+        if(navigator.userAgent.indexOf("Windows") !== -1) {
+            result.system = 'Windows';
+        } else if(navigator.userAgent.indexOf("Linux") !== -1) {
+            result.system = 'Linux';
+        } else {
+            result.system = 'Mac';
+        }
+    } else {
+        result.system = 'secrecy';
+    }
+
+    return result.system
+}
